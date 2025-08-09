@@ -1,0 +1,40 @@
+# top-level EditorConfig
+root = true
+
+# padrão
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Markdown: não aparar espaços de fim de linha (quebras manuais)
+[*.md]
+trim_trailing_whitespace = false
+indent_size = 2
+
+# YAML / YML
+[*.{yml,yaml}]
+indent_size = 2
+
+# JSON / JSONC
+[*.{json,jsonc}]
+indent_size = 2
+
+# TypeScript / JavaScript
+[*.{ts,tsx,cts,mts,js,mjs,cjs}]
+indent_size = 2
+
+# Shell scripts
+[*.{sh,bash}]
+indent_size = 2
+
+# Makefiles exigem TAB
+[Makefile]
+indent_style = tab
+
+# Git-related (opcional): mantêm defaults
+[*.{gitattributes,gitconfig,gitignore}]
+end_of_line = lf
