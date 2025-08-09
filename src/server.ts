@@ -5,8 +5,8 @@ const fastify = Fastify({
 });
 
 // Declare a route
-fastify.get('/', () => {
-  return { hello: 'world' };
+fastify.get('/health', () => {
+  return { status: 'ok', timestamp: new Date().toISOString() };
 });
 
 // Run the server!

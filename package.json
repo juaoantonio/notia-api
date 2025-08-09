@@ -8,6 +8,10 @@
     "dev": "dotenv -e .env -- tsx watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "start": "dotenv -e .env -- node dist/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -34,11 +38,14 @@
     "fastify-cli": "^7.4.0",
     "fastify-plugin": "^5.0.0",
     "fastify-type-provider-zod": "^5.0.3",
+    "vite-tsconfig-paths": "^5.1.4",
     "zod": "^4.0.16"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
     "@types/node": "^24.2.1",
+    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
     "dotenv-cli": "^10.0.0",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
@@ -50,6 +57,7 @@
     "prisma": "^6.13.0",
     "tsx": "^4.20.3",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.39.0"
+    "typescript-eslint": "^8.39.0",
+    "vitest": "^3.2.4"
   }
 }

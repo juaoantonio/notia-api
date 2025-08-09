@@ -2,7 +2,29 @@ import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 import { z } from 'zod';
 
-dotenvExpand.expand(dotenv.config());
+console.log(process.env.NODE_ENV);
+
+const envDir = 'envs';
+const currentEnv = process.env.NODE_ENV;
+const envFiles = [`${envDir}/.env`];
+if (currentEnv === 'production') {
+  envFiles.push(`${envDir}/.env.production`);
+}
+
+if (currentEnv === 'development') {
+  envFiles.push(`${envDir}/.env.development`);
+}
+
+if (currentEnv === 'test') {
+  envFiles.push(`${envDir}/.env.test`);
+}
+
+console.log(`Loading environment variables from: ${envFiles.join(', ')}`);
+dotenvExpand.expand(
+  dotenv.config({
+    path: envFiles,
+  }),
+);
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),

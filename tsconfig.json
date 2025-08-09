@@ -16,7 +16,8 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "types": [],
+    "types": ["vitest/globals"],
+
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -44,7 +45,7 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
   },
-  "include": ["src"]
+  "include": ["src", "test", "vitest.config.ts"],
 }

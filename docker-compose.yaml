@@ -5,7 +5,7 @@ services:
     container_name: pg_local
     restart: unless-stopped
     env_file:
-      - .env.development
+      - envs/.env.development
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
