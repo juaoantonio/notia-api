@@ -7,7 +7,18 @@ import prettier from 'eslint-config-prettier';
 
 export default defineConfig([
   // Ignorar gerados
-  { ignores: ['dist', 'node_modules', '.pnpm', 'coverage', 'prisma/client'] },
+  {
+    ignores: [
+      'dist',
+      'node_modules',
+      '.pnpm',
+      'coverage',
+      'prisma/client',
+      // Arquivos gerados (ex.: Prisma runtime)
+      'src/generated',
+      'src/generated/**',
+    ],
+  },
 
   // Regras base para JS (limitadas a .js/.mjs/.cjs)
   {

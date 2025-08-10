@@ -2,3 +2,13 @@ dist
 node_modules
 coverage
 .prisma
+.pnpm
+pnpm-lock.yaml
+prisma/client
+src/generated
+src/generated/**
+docs
+docs/**
+.github
+.github/**
+tsconfig.json

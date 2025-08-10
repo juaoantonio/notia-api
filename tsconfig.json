@@ -47,5 +47,5 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
   },
-  "include": ["src", "test", "vitest.config.ts"],
+  "include": ["src", "test"],
 }
