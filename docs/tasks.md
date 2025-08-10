@@ -13,14 +13,14 @@ APIs seguras, rápidas (≈300ms), escaláveis e bem testadas para: autenticaç�
 
 ## Fase 1 — Arquitetura & Setup
 
-### [ ] Tarefa B1.1 — Definir arquitetura e modelo de dados
+### [x] Tarefa B1.1 — Definir arquitetura e modelo de dados
 - **Objetivo:** Diagramar serviços, fluxos e schema (Usuário, Pasta, Link, Tag, Slug público, Eventos/Stats).
 - **Pré-requisitos:** PRD validado.
 - **Critério de conclusão:** DER aprovado; decisões registradas (JWT em cookie httpOnly, RBAC básico).
 - **Estimativa:** 1 dia • **Prioridade:** Alta
 - **Checklist de validação:**
-  - [ ] Diagrama de arquitetura compartilhado (link no repositório)
-  - [ ] DER contendo entidades e relações principais
+  - [x] Diagrama de arquitetura compartilhado (link no repositório)
+  - [x] DER contendo entidades e relações principais
   - [x] Decisões registradas (doc ADR) sobre autenticação, RBAC, escalabilidade
 
 ### [x] Tarefa B1.2 — Inicializar projeto Fastify + TypeScript + Zod
@@ -31,7 +31,7 @@ APIs seguras, rápidas (≈300ms), escaláveis e bem testadas para: autenticaç�
 - **Checklist de validação:**
   - [x] Endpoint `/health` ativo
   - [x] TS `strict` habilitado
-  - [ ] ESLint/Prettier configurados e passando no CI
+  - [x] ESLint/Prettier configurados e passando no CI
 
 ### [ ] Tarefa B1.3 — Postgres (Neon/Supabase) + Prisma
 - **Objetivo:** Conectar DB, definir `schema.prisma`, migrations iniciais.
