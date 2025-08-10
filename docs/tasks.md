@@ -21,16 +21,16 @@ APIs seguras, rápidas (≈300ms), escaláveis e bem testadas para: autenticaç�
 - **Checklist de validação:**
   - [ ] Diagrama de arquitetura compartilhado (link no repositório)
   - [ ] DER contendo entidades e relações principais
-  - [ ] Decisões registradas (doc ADR) sobre autenticação, RBAC, escalabilidade
+  - [x] Decisões registradas (doc ADR) sobre autenticação, RBAC, escalabilidade
 
-### [ ] Tarefa B1.2 — Inicializar projeto Fastify + TypeScript + Zod
+### [x] Tarefa B1.2 — Inicializar projeto Fastify + TypeScript + Zod
 - **Objetivo:** Skeleton com Fastify, TS `strict`, Zod, estrutura de módulos.
 - **Pré-requisitos:** B1.1.
 - **Critério de conclusão:** `/health` responde; ESLint/Prettier sem erros.
 - **Estimativa:** 0,5 dia • **Prioridade:** Alta
 - **Checklist de validação:**
-  - [ ] Endpoint `/health` ativo
-  - [ ] TS `strict` habilitado
+  - [x] Endpoint `/health` ativo
+  - [x] TS `strict` habilitado
   - [ ] ESLint/Prettier configurados e passando no CI
 
 ### [ ] Tarefa B1.3 — Postgres (Neon/Supabase) + Prisma
