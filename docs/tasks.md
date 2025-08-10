@@ -39,9 +39,9 @@ APIs seguras, rápidas (≈300ms), escaláveis e bem testadas para: autenticaç�
 - **Critério de conclusão:** Migrations aplicadas; seed básico ok.
 - **Estimativa:** 1 dia • **Prioridade:** Alta
 - **Checklist de validação:**
-  - [ ] Variáveis de ambiente do DB configuradas
-  - [ ] `prisma migrate deploy` executa sem erros
-  - [ ] Script de seed inserindo dados mínimos
+  - [x] Variáveis de ambiente do DB configuradas
+  - [x] `prisma migrate deploy` executa sem erros
+  - [x] Script de seed inserindo dados mínimos
 
 ### [ ] Tarefa B1.4 — Autenticação base (JWT httpOnly)
 - **Objetivo:** `fastify-jwt`, geração/validação, expiração/refresh.
