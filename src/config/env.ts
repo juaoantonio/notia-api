@@ -28,25 +28,25 @@ dotenvExpand.expand(
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
-  DB_HOST: z.string(),
-  DB_PORT: z.coerce.number().int().positive(),
-  DB_USER: z.string(),
-  DB_PASSWORD: z.string(),
-  DB_NAME: z.string(),
-  DB_SCHEMA: z.string().default('public'),
-  DB_SSL: z.coerce.boolean().default(false),
-  DATABASE_URL: z.url(),
+  POSTGRES_HOST: z.string(),
+  POSTGRES_PORT: z.coerce.number().int().positive(),
+  POSTGRES_USER: z.string(),
+  POSTGRES_PASSWORD: z.string(),
+  POSTGRES_DB: z.string(),
+  POSTGRES_SCHEMA: z.string().default('public'),
+  POSTGRES_SSL: z.coerce.boolean().default(false),
+  DATABASE_URL: z.string().url(),
 });
 
 export const env = envSchema.parse(process.env);
 
 export const db = {
-  host: env.DB_HOST,
-  port: env.DB_PORT,
-  user: env.DB_USER,
-  password: env.DB_PASSWORD,
-  name: env.DB_NAME,
-  schema: env.DB_SCHEMA,
-  ssl: env.DB_SSL,
+  host: env.POSTGRES_DB,
+  port: env.POSTGRES_DB,
+  user: env.POSTGRES_USER,
+  password: env.POSTGRES_PASSWORD,
+  name: env.POSTGRES_DB,
+  schema: env.POSTGRES_SCHEMA,
+  ssl: env.POSTGRES_SSL,
   url: env.DATABASE_URL,
 } as const;
