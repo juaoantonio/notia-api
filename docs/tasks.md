@@ -33,7 +33,7 @@ APIs seguras, rápidas (≈300ms), escaláveis e bem testadas para: autenticaç�
   - [x] TS `strict` habilitado
   - [x] ESLint/Prettier configurados e passando no CI
 
-### [ ] Tarefa B1.3 — Postgres (Neon/Supabase) + Prisma
+### [x] Tarefa B1.3 — Postgres (Neon/Supabase) + Prisma
 - **Objetivo:** Conectar DB, definir `schema.prisma`, migrations iniciais.
 - **Pré-requisitos:** B1.1.
 - **Critério de conclusão:** Migrations aplicadas; seed básico ok.
