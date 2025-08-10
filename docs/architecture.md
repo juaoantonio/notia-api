@@ -2,42 +2,61 @@
 
 Diagrama atualizado com os principais componentes do Notia e seus fluxos.
 
-```mermaid
-graph TD
-  subgraph Client["Frontend SPA (React 19 + Vite)"]
-    UI["UI/Router"]
-  end
+```plantuml
+@startuml
+skinparam linetype ortho
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
 
-  subgraph API["Backend (Fastify + TypeScript + Zod)"]
-    RT["Rotas/Plugins"]
-    AUTH["JWT em cookie httpOnly"]
-    VAL["Validação com Zod"]
-    SVC["Serviços (Auth, Pastas, Links, Tags IA, Público)"]
-    LOG["Logs (Pino) & Observabilidade"]
-  end
+' ===== Paleta aproximada dos "classes" Mermaid =====
+skinparam component {
+  BackgroundColor<<node>>  #0EA5E9
+  BorderColor<<node>>      #0369A1
+  FontColor<<node>>        white
 
-  subgraph DB["PostgreSQL (Neon/Supabase)"]
-    PG["PostgreSQL"]
-    PRISMA["Prisma Client"]
-  end
+  BackgroundColor<<infra>> #94A3B8
+  BorderColor<<infra>>     #475569
+  FontColor<<infra>>       white
+}
 
-  subgraph IA["OpenAI API"]
-    TAGS["Serviço de sugestão de tags"]
-  end
+' ===================== ÁREAS / PACOTES =====================
+package "Frontend SPA (React 19 + Vite)" as Client {
+  component "UI/Router" as UI <<node>>
+}
 
-  UI -->|fetch/axios| RT
-  RT --> VAL
-  RT --> AUTH
-  RT --> SVC
-  SVC --> PRISMA
-  PRISMA --> PG
-  SVC -->|quando necessário| TAGS
-  RT --> LOG
+package "Backend (Fastify + TypeScript + Zod)" as API {
+  component "Rotas/Plugins" as RT <<node>>
+  component "JWT em cookie httpOnly" as AUTH <<node>>
+  component "Validação com Zod" as VAL <<node>>
+  component "Serviços\n(Auth, Pastas, Links, Tags IA, Público)" as SVC <<node>>
+  component "Logs (Pino) & Observabilidade" as LOG <<node>>
+}
 
-  classDef node fill:#0ea5e9,stroke:#0369a1,color:#fff;
-  classDef infra fill:#94a3b8,stroke:#475569,color:#fff;
-  class UI,RT,AUTH,VAL,SVC,LOG node;
-  class PRISMA,PG infra;
+package "PostgreSQL (Neon/Supabase)" as DB {
+  component "Prisma Client" as PRISMA <<infra>>
+  database "PostgreSQL" as PG <<infra>>
+}
+
+cloud "OpenAI API" as IA {
+  component "Serviço de sugestão de tags" as TAGS <<infra>>
+}
+
+' ===================== FLUXOS =====================
+UI --> RT : fetch/axios
+RT --> VAL
+RT --> AUTH
+RT --> SVC
+SVC --> PRISMA
+PRISMA --> PG
+SVC --> TAGS : quando necessário
+RT --> LOG
+
+' ===================== LEGENDAS =====================
+legend right
+Autenticação: JWT assinado em cookie httpOnly; CORS restrito ao domínio do frontend.
+Validação: Zod para requests/responses in
+
 ```
 
 - Autenticação: JWT assinado em cookie httpOnly; CORS restrito ao domínio do frontend.

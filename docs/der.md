@@ -1,76 +1,125 @@
 ## DER — Modelo de Dados Principal
 
-```mermaid
-erDiagram
-  USER ||--o{ FOLDER : owns
-  FOLDER ||--o{ LINK : contains
-  LINK }o--o{ TAG : tagged_as
-  FOLDER ||--|| PUBLICSLUG : may_have
-  USER ||--o{ EVENT : triggers
-  FOLDER ||--o{ EVENT : relates
-  LINK ||--o{ EVENT : relates
+```plantuml
+@startuml
+hide circle
+skinparam linetype ortho
 
-  USER {
-    uuid id PK
-    string email "unique"
-    string passwordHash
-    string name
-    datetime createdAt
-    datetime updatedAt
-  }
+' ===================== ENTIDADES =====================
 
-  FOLDER {
-    uuid id PK
-    uuid ownerId FK "-> USER.id"
-    string name
-    string description
-    boolean isPublic "default:false"
-    datetime createdAt
-    datetime updatedAt
-  }
+entity "USER" as USER {
+  * id : uuid <<PK>>
+  --
+  email : string <<UQ>>
+  passwordHash : string
+  name : string
+  createdAt : datetime
+  updatedAt : datetime
+}
 
-  LINK {
-    uuid id PK
-    uuid folderId FK "-> FOLDER.id"
-    string url
-    string title
-    string description
-    datetime createdAt
-    datetime updatedAt
-  }
+entity "FOLDER" as FOLDER {
+  * id : uuid <<PK>>
+  --
+  ownerId : uuid <<FK -> USER.id>>
+  name : string
+  description : string
+  isPublic : boolean <<default:false>>
+  createdAt : datetime
+  updatedAt : datetime
+}
 
-  TAG {
-    uuid id PK
-    string name "unique"
-    datetime createdAt
-    datetime updatedAt
-  }
+entity "LINK" as LINK {
+  * id : uuid <<PK>>
+  --
+  folderId : uuid <<FK -> FOLDER.id>>
+  url : string
+  title : string
+  description : string
+  createdAt : datetime
+  updatedAt : datetime
+}
 
-  LINK_TAG {
-    uuid linkId FK "-> LINK.id"
-    uuid tagId FK "-> TAG.id"
-    string source "manual|ai"
-    PK "(linkId, tagId)"
-  }
+entity "TAG" as TAG {
+  * id : uuid <<PK>>
+  --
+  name : string <<UQ>>
+  createdAt : datetime
+  updatedAt : datetime
+}
 
-  PUBLICSLUG {
-    uuid id PK
-    uuid folderId FK "-> FOLDER.id unique"
-    string slug "unique, non-guessable"
-    boolean active "default:true"
-    datetime createdAt
-    datetime revokedAt "nullable"
-  }
+' Tabela de junção (chave composta)
+entity "LINK_TAG" as LINK_TAG {
+  ' Chave composta (linkId, tagId)
+  * linkId : uuid <<FK -> LINK.id>>
+  * tagId  : uuid <<FK -> TAG.id>>
+  --
+  source : string <<manual|ai>>
+  ' PK: (linkId, tagId)
+}
 
-  EVENT {
-    bigint id PK
-    uuid userId FK "-> USER.id nullable"
-    uuid folderId FK "-> FOLDER.id nullable"
-    uuid linkId FK "-> LINK.id nullable"
-    string eventType "CLICK|VISIT|SHARE|CREATE"
-    jsonb meta
-    timestamptz occurredAt
-  }
+entity "PUBLICSLUG" as PUBLICSLUG {
+  * id : uuid <<PK>>
+  --
+  folderId : uuid <<FK -> FOLDER.id, UQ>>
+  slug : string <<UQ, non-guessable>>
+  active : boolean <<default:true>>
+  createdAt : datetime
+  revokedAt : datetime <<nullable>>
+}
+
+entity "EVENT" as EVENT {
+  * id : bigint <<PK>>
+  --
+  userId   : uuid <<FK -> USER.id, nullable>>
+  folderId : uuid <<FK -> FOLDER.id, nullable>>
+  linkId   : uuid <<FK -> LINK.id, nullable>>
+  eventType : string <<CLICK|VISIT|SHARE|CREATE>>
+  meta : jsonb
+  occurredAt : timestamptz
+}
+
+' ===================== RELACIONAMENTOS =====================
+
+USER   ||--o{ FOLDER : owns
+FOLDER ||--o{ LINK   : contains
+
+' relacionamento N..M direto (mantido como no Mermaid)
+LINK   }o--o{ TAG    : tagged_as
+
+' também representando a tabela de junção explicitamente
+LINK   ||--o{ LINK_TAG
+TAG    ||--o{ LINK_TAG
+
+' uma pasta pode ter no máx. um slug (ativo) por vez
+FOLDER ||--|| PUBLICSLUG : may_have
+
+USER   ||--o{ EVENT  : triggers
+FOLDER ||--o{ EVENT  : relates
+LINK   ||--o{ EVENT  : relates
+
+' ===================== ÍNDICES RECOMENDADOS (notas) =====================
+note right of USER
+  Índice recomendado:
+  - USER.email
+end note
+
+note right of FOLDER
+  Índice recomendado:
+  - FOLDER.ownerId
+end note
+
+note right of LINK
+  Índice recomendado:
+  - LINK.folderId
+end note
+
+note right of PUBLICSLUG
+  Índices recomendados:
+  - PUBLICSLUG.slug
+  - PUBLICSLUG.folderId (único)
+end note
+
+@enduml
 ```
 
 Observações:
