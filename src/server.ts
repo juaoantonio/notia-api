@@ -1,18 +1,18 @@
-import Fastify from 'fastify';
+import { buildApp } from './app';
+import { env } from './config/env';
 
-const fastify = Fastify({
-  logger: true,
+const server = buildApp({
+  logger: {
+    level: 'info',
+    transport: {
+      target: 'pino-pretty',
+    },
+  },
 });
 
-// Declare a route
-fastify.get('/health', () => {
-  return { status: 'ok', timestamp: new Date().toISOString() };
-});
-
-// Run the server!
 try {
-  await fastify.listen({ port: 3000 });
+  await server.listen({ port: env.PORT, host: env.HOST });
 } catch (err) {
-  fastify.log.error(err);
+  server.log.error(err);
   process.exit(1);
 }

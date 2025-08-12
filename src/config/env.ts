@@ -27,15 +27,16 @@ dotenvExpand.expand(
 );
 
 const envSchema = z.object({
-  NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  PORT: z.coerce.number().int().positive().default(3000),
+  HOST: z.string().default('0.0.0.0'),
   POSTGRES_HOST: z.string(),
-  POSTGRES_PORT: z.coerce.number().int().positive(),
+  POSTGRES_PORT: z.coerce.number().int().positive().default(5432),
   POSTGRES_USER: z.string(),
   POSTGRES_PASSWORD: z.string(),
   POSTGRES_DB: z.string(),
   POSTGRES_SCHEMA: z.string().default('public'),
   POSTGRES_SSL: z.coerce.boolean().default(false),
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: z.url(),
 });
 
 export const env = envSchema.parse(process.env);
