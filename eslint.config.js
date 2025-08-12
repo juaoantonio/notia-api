@@ -69,6 +69,19 @@ export default defineConfig([
     files: ['**/*.{ts,mts,cts}'],
     rules: {
       '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports' }],
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          args: 'all',
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
     },
   },
 
