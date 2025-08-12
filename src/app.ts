@@ -18,6 +18,9 @@ export function buildApp(opts?: AppOptions) {
   app.register(fastifyAutoload, {
     dir: path.join(import.meta.dirname, 'routes'),
     routeParams: true,
+    options: {
+      prefix: '/v1',
+    },
   });
 
   return app;
