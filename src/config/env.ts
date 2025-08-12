@@ -6,18 +6,9 @@ console.log(process.env.NODE_ENV);
 
 const envDir = 'envs';
 const currentEnv = process.env.NODE_ENV;
-const envFiles = [`${envDir}/.env`];
-if (currentEnv === 'production') {
-  envFiles.push(`${envDir}/.env.production`);
-}
-
-if (currentEnv === 'development') {
-  envFiles.push(`${envDir}/.env.development`);
-}
-
-if (currentEnv === 'test') {
-  envFiles.push(`${envDir}/.env.test`);
-}
+const envFiles = [`${envDir}/.env`, currentEnv ? `${envDir}/.env.${currentEnv}` : ''].filter(
+  Boolean,
+);
 
 console.log(`Loading environment variables from: ${envFiles.join(', ')}`);
 dotenvExpand.expand(
