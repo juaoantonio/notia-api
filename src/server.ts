@@ -1,14 +1,7 @@
 import { buildApp } from './app';
 import { env } from './config/env';
 
-const server = buildApp({
-  logger: {
-    level: 'info',
-    transport: {
-      target: 'pino-pretty',
-    },
-  },
-});
+const server = buildApp();
 
 try {
   await server.listen({ port: env.PORT, host: env.HOST });

@@ -1,17 +1,28 @@
-import { fastify, type FastifyBaseLogger, type FastifyHttpOptions } from 'fastify';
-import type { Server } from 'node:http';
-import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { fastifyAutoload } from '@fastify/autoload';
-import path from 'node:path';
 import { fastifyCors } from '@fastify/cors';
+import { fastify, type FastifyBaseLogger, type FastifyHttpOptions } from 'fastify';
+import type { ZodTypeProvider } from 'fastify-type-provider-zod';
+import type { Server } from 'node:http';
+import path from 'node:path';
 
 type AppOptions = FastifyHttpOptions<Server<never, never>, FastifyBaseLogger>;
 
 export function buildApp(opts?: AppOptions) {
-  const app = fastify(opts);
+  const app = fastify({
+    logger: {
+      level: 'info',
+      transport: {
+        target: 'pino-pretty',
+        options: {
+          translateTime: 'HH:MM:ss Z',
+          ignore: 'pid,hostname',
+        },
+      },
+    },
+    ...opts,
+  });
   app.withTypeProvider<ZodTypeProvider>();
 
-  // Register plugins
   app.register(fastifyCors, {
     origin: '*',
   });
@@ -21,6 +32,11 @@ export function buildApp(opts?: AppOptions) {
     options: {
       prefix: '/v1',
     },
+  });
+
+  app.addHook('onRoute', ({ method, path }) => {
+    if (['OPTIONS', 'HEAD'].includes(String(method))) return;
+    app.log.info(`${String(method)} - ${path}`);
   });
 
   return app;
