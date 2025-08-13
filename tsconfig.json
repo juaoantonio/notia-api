@@ -46,6 +46,12 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@test/*": ["./test/*"],
+      "@config/*": ["./src/config/*"],
+      "@routes/*": ["./src/routes/*"],
+    }
   },
   "include": ["src", "test"],
 }
