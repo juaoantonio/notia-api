@@ -1,14 +1,13 @@
-import { fastifyAutoload } from '@fastify/autoload';
-import fastifyCookie from '@fastify/cookie';
-import fastifyCors from '@fastify/cors';
-import { fastify, type FastifyBaseLogger, type FastifyHttpOptions } from 'fastify';
+import { fastify } from 'fastify';
+import autoload from '@fastify/autoload';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
-import type { Server } from 'node:http';
-import path from 'node:path';
 
-type AppOptions = FastifyHttpOptions<Server<never, never>, FastifyBaseLogger>;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-export function buildApp(opts?: AppOptions) {
+export function buildApp() {
   const app = fastify({
     logger: {
       level: 'info',
@@ -20,29 +19,23 @@ export function buildApp(opts?: AppOptions) {
         },
       },
     },
-    ...opts,
   });
   app.withTypeProvider<ZodTypeProvider>();
 
-  app.register(fastifyCors, {
-    origin: ['http://localhost:8000'],
-    credentials: true,
-  });
-  app.register(fastifyCookie);
-  app.register(fastifyAutoload, {
-    dir: path.join(import.meta.dirname, 'modules'),
-    options: {
-      prefix: '/v1',
-    },
-    indexPattern: /^.*routes(?:\.ts|\.js|\.cjs|\.mjs)$/,
-  });
-  app.register(fastifyAutoload, {
-    dir: path.join(import.meta.dirname, 'providers'),
+  app.register(autoload, {
+    dir: join(__dirname, 'providers'),
+    encapsulate: false,
   });
 
-  app.addHook('onRoute', ({ method, path }) => {
-    if (['OPTIONS', 'HEAD'].includes(String(method))) return;
-    app.log.info(`${String(method)} - ${path}`);
+  app.register(autoload, {
+    dir: join(__dirname, 'modules'),
+    options: { prefix: '/v1' },
+    dirNameRoutePrefix: false,
+  });
+
+  app.addHook('onRoute', ({ method, url }) => {
+    if (['HEAD', 'OPTIONS'].includes(String(method))) return;
+    app.log.info(`Registered route: ${String(method)} ${url}`);
   });
 
   return app;
