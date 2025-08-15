@@ -8,7 +8,7 @@ async function main(): Promise<void> {
     update: {},
     create: {
       email: 'demo@notia.local',
-      passwordHash: 'changeme',
+      googleSub: '1234567890',
       name: 'Demo User',
     },
   });
