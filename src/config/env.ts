@@ -28,6 +28,8 @@ const envSchema = z.object({
   POSTGRES_SCHEMA: z.string().default('public'),
   POSTGRES_SSL: z.coerce.boolean().default(false),
   DATABASE_URL: z.url(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
 });
 
 export const env = envSchema.parse(process.env);
