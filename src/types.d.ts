@@ -14,5 +14,3 @@ export type FastifyTypedInstance = FastifyInstance<
   FastifyBaseLogger,
   ZodTypeProvider
 >;
-
-export type DefineRoutesHandler = (app: FastifyTypedInstance) => void;
