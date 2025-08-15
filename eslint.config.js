@@ -82,6 +82,7 @@ export default defineConfig([
           ignoreRestSiblings: true,
         },
       ],
+      '@typescript-eslint/require-await': 'off',
     },
   },
 
