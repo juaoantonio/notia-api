@@ -53,5 +53,5 @@
       "@routes/*": ["./src/routes/*"],
     }
   },
-  "include": ["src", "test"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "test/**/*.ts"],
 }
