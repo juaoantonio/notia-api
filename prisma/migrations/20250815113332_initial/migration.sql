@@ -7,9 +7,11 @@ CREATE TYPE "public"."TagSource" AS ENUM ('MANUAL', 'AI');
 -- CreateTable
 CREATE TABLE "public"."User" (
     "id" UUID NOT NULL,
-    "email" TEXT NOT NULL,
-    "passwordHash" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "googleSub" TEXT NOT NULL,
+    "email" TEXT,
+    "emailVerified" BOOLEAN NOT NULL DEFAULT false,
+    "name" TEXT,
+    "picture" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -85,6 +87,9 @@ CREATE TABLE "public"."Event" (
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_googleSub_key" ON "public"."User"("googleSub");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
