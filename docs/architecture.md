@@ -56,7 +56,7 @@ RT --> LOG
 legend right
 Autenticação: JWT assinado em cookie httpOnly; CORS restrito ao domínio do frontend.
 Validação: Zod para requests/responses in
-
+endlegend
 ```
 
 - Autenticação: JWT assinado em cookie httpOnly; CORS restrito ao domínio do frontend.
