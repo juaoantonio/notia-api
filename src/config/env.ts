@@ -2,8 +2,6 @@ import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 import { z } from 'zod';
 
-console.log(process.env.NODE_ENV);
-
 const envDir = 'envs';
 const currentEnv = process.env.NODE_ENV;
 const envFiles = [`${envDir}/.env`, currentEnv ? `${envDir}/.env.${currentEnv}` : ''].filter(
@@ -18,6 +16,7 @@ dotenvExpand.expand(
 );
 
 const envSchema = z.object({
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.coerce.number().int().positive().default(3000),
   HOST: z.string().default('0.0.0.0'),
   POSTGRES_HOST: z.string(),
@@ -29,8 +28,23 @@ const envSchema = z.object({
   POSTGRES_SSL: z.coerce.boolean().default(false),
   DATABASE_URL: z.url(),
   FRONTEND_URL: z.url().default('http://localhost:8000'),
+  CORS_ORIGIN: z
+    .string()
+    .default('["http://localhost:4000"]')
+    .transform((val) => {
+      try {
+        return JSON.parse(val) as string[];
+      } catch (_) {
+        console.error('Invalid CORS_ORIGIN format, expected JSON array:', val);
+        throw new Error('Invalid CORS_ORIGIN format');
+      }
+    }),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+  GOOGLE_CALLBACK_URL: z.url(),
+  COOKIE_SECRET: z.string().default('dev-secret'),
+  JWT_SECRET: z.string().default('dev-jwt-secret'),
+  JWT_EXPIRES_IN: z.string().default('1h'),
 });
 
 export const env = envSchema.parse(process.env);
