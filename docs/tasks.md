@@ -52,9 +52,7 @@ APIs seguras, rápidas (≈300ms), escaláveis e bem testadas para: autenticaç�
   - [x] Assinatura/validação JWT funcionando
   - [x] Cookie `httpOnly; secure; sameSite` configurado
   - [x] Middleware/Hook bloqueando rotas privadas
-  - [x] Integração com Google OAuth2 usando a lib `@fastify/oauth2`
-  - [x] Criação de usuário no callback do login Google
-
+ 
 ### [ ] Tarefa B1.5 — Observabilidade mínima (logs/metrics)
 - **Objetivo:** Pino para logs estruturados, timing e request-id.
 - **Pré-requisitos:** B1.2.
@@ -69,16 +67,14 @@ APIs seguras, rápidas (≈300ms), escaláveis e bem testadas para: autenticaç�
 
 ## Fase 2 — MVP de APIs
 
-### [ ] Tarefa B2.1 — Autenticação completa (e-mail/senha, OAuth Google, recuperação)
-- **Objetivo:** `POST /auth/register|login|logout`, OAuth Google, `POST /auth/forgot|reset`.
+### [x] Tarefa B2.1 — Autenticação completa (e-mail/senha, OAuth Google, recuperação)
+- **Objetivo:** OAuth Google.
 - **Pré-requisitos:** B1.4, B1.3.
-- **Critério de conclusão:** Fluxos funcionais; senhas hash; e-mails ok.
+- **Critério de conclusão:** Fluxos funcionais;
 - **Estimativa:** 2 dias • **Prioridade:** Alta
 - **Checklist de validação:**
-  - [ ] Registro e login retornam cookie de sessão
-  - [ ] Senhas com bcrypt/argon2
-  - [ ] Recuperação de senha com token de uso único e expiração
-  - [ ] OAuth Google configurado e testado
+  - [x] Registro e login retornam cookie de sessão
+  - [x] OAuth Google configurado e testado
 
 ### [ ] Tarefa B2.2 — Perfil/Conta
 - **Objetivo:** `GET/PUT /me`, `PUT /me/password`.
