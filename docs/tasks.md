@@ -43,15 +43,17 @@ APIs seguras, rápidas (≈300ms), escaláveis e bem testadas para: autenticaç�
   - [x] `prisma migrate deploy` executa sem erros
   - [x] Script de seed inserindo dados mínimos
 
-### [ ] Tarefa B1.4 — Autenticação base (JWT httpOnly)
+### [x] Tarefa B1.4 — Autenticação base (JWT httpOnly / Login Social com Google)
 - **Objetivo:** `fastify-jwt`, geração/validação, expiração/refresh.
 - **Pré-requisitos:** B1.2, B1.3.
 - **Critério de conclusão:** Hook de auth protege rotas; cookies httpOnly emitidos.
 - **Estimativa:** 0,5 dia • **Prioridade:** Alta
 - **Checklist de validação:**
-  - [ ] Assinatura/validação JWT funcionando
-  - [ ] Cookie `httpOnly; secure; sameSite` configurado
-  - [ ] Middleware/Hook bloqueando rotas privadas
+  - [x] Assinatura/validação JWT funcionando
+  - [x] Cookie `httpOnly; secure; sameSite` configurado
+  - [x] Middleware/Hook bloqueando rotas privadas
+  - [x] Integração com Google OAuth2 usando a lib `@fastify/oauth2`
+  - [x] Criação de usuário no callback do login Google
 
 ### [ ] Tarefa B1.5 — Observabilidade mínima (logs/metrics)
 - **Objetivo:** Pino para logs estruturados, timing e request-id.
