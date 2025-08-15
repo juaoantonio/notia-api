@@ -1,5 +1,6 @@
 import { fastifyAutoload } from '@fastify/autoload';
-import { fastifyCors } from '@fastify/cors';
+import fastifyCookie from '@fastify/cookie';
+import fastifyCors from '@fastify/cors';
 import { fastify, type FastifyBaseLogger, type FastifyHttpOptions } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import type { Server } from 'node:http';
@@ -24,14 +25,19 @@ export function buildApp(opts?: AppOptions) {
   app.withTypeProvider<ZodTypeProvider>();
 
   app.register(fastifyCors, {
-    origin: '*',
+    origin: ['http://localhost:8000'],
+    credentials: true,
   });
+  app.register(fastifyCookie);
   app.register(fastifyAutoload, {
-    dir: path.join(import.meta.dirname, 'routes'),
-    routeParams: true,
+    dir: path.join(import.meta.dirname, 'modules'),
     options: {
       prefix: '/v1',
     },
+    indexPattern: /^.*routes(?:\.ts|\.js|\.cjs|\.mjs)$/,
+  });
+  app.register(fastifyAutoload, {
+    dir: path.join(import.meta.dirname, 'providers'),
   });
 
   app.addHook('onRoute', ({ method, path }) => {
