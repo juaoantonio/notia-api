@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { CallbackQuerySchema } from './schema.js';
+import { CallbackQuerySchema } from './auth.schemas';
 import type { FastifyTypedInstance } from '@/types';
-import type { GoogleProfile } from '@/modules/auth/types';
+import type { GoogleProfile } from '@/modules/auth/auth.types';
 import { env } from '@config/env';
 import type { Prisma } from '@/generated/prisma';
 import { StatusCodes } from 'http-status-codes';
