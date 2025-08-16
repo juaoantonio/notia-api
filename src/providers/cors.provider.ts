@@ -8,8 +8,6 @@ export default fastifyPlugin(
     await app.register(fastifyCors, {
       origin: env.CORS_ORIGIN,
       credentials: true,
-      // Ex.: mover validação para outro hook (opcional)
-      // hook: 'preHandler',
     });
   },
   { name: 'cors' },
