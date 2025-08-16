@@ -9,6 +9,16 @@ declare module 'fastify' {
   }
 }
 
+declare module '@fastify/jwt' {
+  interface FastifyJWT {
+    user: {
+      id: string;
+      email: string | null;
+      name: string | null;
+    };
+  }
+}
+
 export default fp(
   async (app: FastifyTypedInstance) => {
     app.register(fastifyJwt, {
