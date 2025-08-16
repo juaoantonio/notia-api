@@ -30,7 +30,7 @@ const envSchema = z.object({
   FRONTEND_URL: z.url().default('http://localhost:8000'),
   CORS_ORIGIN: z
     .string()
-    .default('["http://localhost:4000"]')
+    .default('["http://localhost:8000"]')
     .transform((val) => {
       try {
         return JSON.parse(val) as string[];
