@@ -11,9 +11,7 @@ export default defineConfig({
     restoreMocks: true,
     clearMocks: true,
     mockReset: true,
-    setupFiles: ['src/config/env.ts'],
-    // Se usar banco real, evite concorrência entre testes:
-    // poolOptions: { threads: { singleThread: true } },
+    poolOptions: { threads: { singleThread: true } },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],

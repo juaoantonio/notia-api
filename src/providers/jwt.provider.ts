@@ -2,6 +2,7 @@ import fp from 'fastify-plugin';
 import fastifyJwt from '@fastify/jwt';
 import { env } from '@config/env';
 import type { FastifyTypedInstance } from '@/types';
+import { UnauthorizedError } from '@/errors/client.errors';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -32,7 +33,7 @@ export default fp(
         const decoded = await req.jwtVerify<{ sub: string; email?: string; name?: string }>();
         req.user = { id: decoded.sub, email: decoded.email ?? null, name: decoded.name ?? null };
       } catch {
-        reply.code(401).send({ error: 'unauthorized' });
+        throw new UnauthorizedError();
       }
     });
   },
