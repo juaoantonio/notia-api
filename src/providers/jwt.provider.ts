@@ -14,6 +14,7 @@ export default fp(
     app.register(fastifyJwt, {
       secret: env.JWT_SECRET,
       sign: { expiresIn: env.JWT_EXPIRES_IN },
+      cookie: { cookieName: 'token', signed: false },
     });
 
     app.decorate('authenticate', async function (req, reply) {
