@@ -8,6 +8,7 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['src/**/*.spec.{ts,tsx}', 'tests/**/*.spec.{ts,tsx}'],
+    exclude: ['node_modules', 'dist', 'src/generated/**', 'prisma/**'],
     restoreMocks: true,
     clearMocks: true,
     mockReset: true,
@@ -15,7 +16,10 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
+      all: true,
+      include: ['src/**/*.{ts,tsx}'],
       reportsDirectory: './coverage',
+      exclude: ['node_modules/', 'dist/', 'prisma/**', 'src/generated/prisma/**'],
     },
   },
 });
