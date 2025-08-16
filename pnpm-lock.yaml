@@ -23,6 +23,9 @@ importers:
       '@fastify/oauth2':
         specifier: ^8.1.2
         version: 8.1.2
+      '@fastify/one-line-logger':
+        specifier: ^2.0.2
+        version: 2.0.2
       '@fastify/sensible':
         specifier: ^6.0.0
         version: 6.0.3
@@ -387,6 +390,9 @@ packages:
 
   '@fastify/oauth2@8.1.2':
     resolution: {integrity: sha512-XZWFRWTZE2fkZ2pjuHNGtpFn1tOFgcJbU0205kHbfd16dn9xRc/6HmG0gHtN/g/BNkEL3EsQ54+pYEdh8dnBgA==}
+
+  '@fastify/one-line-logger@2.0.2':
+    resolution: {integrity: sha512-Z7bLKOfZF0QhDCk8zOTJ7TeFWK2XrSo4sZtGoDzZDe3oKqN8NAOrLGmqKA6ERiD02OOVkW8GkOpj+H2DX3n0lQ==}
 
   '@fastify/proxy-addr@5.0.0':
     resolution: {integrity: sha512-37qVVA1qZ5sgH7KpHkkC4z9SK6StIsIcOmpjvMPXNb3vx2GQxhZocogVYbr2PbbeLCQxYIPDok307xEvRZOzGA==}
@@ -2898,6 +2904,10 @@ snapshots:
       simple-oauth2: 5.1.0
     transitivePeerDependencies:
       - supports-color
+
+  '@fastify/one-line-logger@2.0.2':
+    dependencies:
+      pino-pretty: 13.1.1
 
   '@fastify/proxy-addr@5.0.0':
     dependencies:

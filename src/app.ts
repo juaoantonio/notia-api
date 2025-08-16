@@ -10,13 +10,8 @@ const __dirname = dirname(__filename);
 export function buildApp() {
   const app = fastify({
     logger: {
-      level: 'info',
       transport: {
-        target: 'pino-pretty',
-        options: {
-          translateTime: 'HH:MM:ss Z',
-          ignore: 'pid,hostname',
-        },
+        target: '@fastify/one-line-logger',
       },
     },
   });
