@@ -22,7 +22,7 @@ const googleOAuthPlugin = async (app: FastifyTypedInstance) => {
     discovery: { issuer: 'https://accounts.google.com' },
     callbackUri: env.GOOGLE_CALLBACK_URL,
     startRedirectPath: '/v1/auth/google/login',
-    cookie: { httpOnly: true, sameSite: 'lax', secure: false },
+    cookie: { httpOnly: true, sameSite: 'lax', secure: false, path: '/' },
   });
 };
 
