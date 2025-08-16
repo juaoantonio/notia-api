@@ -1,6 +1,7 @@
 import type {
   FastifyBaseLogger,
   FastifyInstance,
+  FastifyPluginAsync,
   RawReplyDefaultExpression,
   RawRequestDefaultExpression,
   RawServerDefault,
@@ -13,4 +14,11 @@ export type FastifyTypedInstance = FastifyInstance<
   RawReplyDefaultExpression,
   FastifyBaseLogger,
   ZodTypeProvider
+>;
+
+export type FastifyTypedPluginAsync = FastifyPluginAsync<
+  Record<never, never>,
+  RawServerDefault,
+  ZodTypeProvider,
+  FastifyBaseLogger
 >;

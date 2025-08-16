@@ -1,12 +1,11 @@
-import type { FastifyPluginAsync } from 'fastify';
 import { CallbackQuerySchema } from './auth.schemas';
-import type { FastifyTypedInstance } from '@/types';
+import type { FastifyTypedInstance, FastifyTypedPluginAsync } from '@/types';
 import type { GoogleProfile } from '@/modules/auth/auth.types';
 import { env } from '@config/env';
 import type { Prisma } from '@/generated/prisma';
 import { StatusCodes } from 'http-status-codes';
 
-const authRoutes: FastifyPluginAsync = async (app: FastifyTypedInstance) => {
+const authRoutes: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) => {
   app.get('/auth/google/callback', async (req, reply) => {
     const parsed = CallbackQuerySchema.safeParse(req.query);
     if (!parsed.success)
