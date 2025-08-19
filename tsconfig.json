@@ -1,10 +1,6 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    // File Layout
-    // "rootDir": "./src",
-    // "outDir": "./dist",
-
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -54,4 +50,8 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "test/**/*.ts"],
+  "tsc-alias": {
+    "resolveFullPaths": true,
+    "verbose": false
+  }
 }
