@@ -25,7 +25,7 @@ enum EventType {
 
 enum TagSource {
   MANUAL // manual
-  AI     // ai
+  AI // ai
 }
 
 // ===================== MODELS =====================
@@ -55,9 +55,9 @@ model Folder {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  owner  User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  links  Link[]
-  events Event[]
+  owner      User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  links      Link[]
+  events     Event[]
   // one-to-one optional relation (a folder may have a public slug)
   publicSlug PublicSlug?
 
@@ -74,9 +74,9 @@ model Link {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  folder   Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
-  tags     LinkTag[]
-  events   Event[]
+  folder Folder    @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  tags   LinkTag[]
+  events Event[]
 
   @@index([folderId])
 }
@@ -93,8 +93,8 @@ model Tag {
 
 // Explicit many-to-many join table to store extra metadata (source)
 model LinkTag {
-  linkId String @db.Uuid
-  tagId  String @db.Uuid
+  linkId String    @db.Uuid
+  tagId  String    @db.Uuid
   source TagSource
 
   // Relations
@@ -105,11 +105,11 @@ model LinkTag {
 }
 
 model PublicSlug {
-  id        String   @id @default(uuid()) @db.Uuid
-  folderId  String   @unique @db.Uuid
-  slug      String   @unique
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
+  id        String    @id @default(uuid()) @db.Uuid
+  folderId  String    @unique @db.Uuid
+  slug      String    @unique
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now())
   revokedAt DateTime?
 
   // Relations
