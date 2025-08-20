@@ -46,7 +46,7 @@ const authRoutes: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) =>
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     });
-    return reply.redirect(env.FRONTEND_URL);
+    return reply.redirect(`${env.FRONTEND_URL}/${user.id}`);
   });
 };
 
