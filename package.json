@@ -16,7 +16,7 @@
     "test:ui": "NODE_OPTIONS='--import tsx' vitest --ui",
     "pretest": "pnpm db:wait && pnpm prisma:migrate",
     "posttest": "pnpm db:stop",
-    "prisma:generate": "dotenv -e envs/.env.development -- prisma generate",
+    "prisma:generate": "prisma generate",
     "prisma:migrate": "dotenv -e envs/.env.development -- prisma migrate dev",
     "prisma:deploy": "dotenv -e envs/.env.development -- prisma migrate deploy",
     "prisma:studio": "dotenv -e envs/.env.development -- prisma studio",
