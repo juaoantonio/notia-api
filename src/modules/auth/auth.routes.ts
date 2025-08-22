@@ -46,7 +46,33 @@ const authRoutes: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) =>
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     });
-    return reply.redirect(`${env.FRONTEND_URL}/${user.id}`);
+    return reply.redirect(`${env.FRONTEND_URL}/home`);
+  });
+
+  app.get(
+    '/me',
+    {
+      onRequest: [app.authenticate],
+    },
+    async (request) => {
+      const user = await app.prisma.user.findUnique({
+        where: {
+          id: request.user.id,
+        },
+        select: {
+          id: true,
+          name: true,
+          picture: true,
+          email: true,
+        },
+      });
+      return user;
+    },
+  );
+
+  app.post('/auth/logout', async (_request, reply) => {
+    reply.clearCookie('token');
+    return reply.code(StatusCodes.NO_CONTENT).send();
   });
 };
 
