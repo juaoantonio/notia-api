@@ -24,3 +24,14 @@ export class UnauthorizedError extends ClientError {
     });
   }
 }
+
+export class BadRequestError extends ClientError {
+  constructor({ message, action }: { message?: string; action?: string } = {}) {
+    super({
+      message: message || 'Invalid request.',
+      statusCode: StatusCodes.BAD_REQUEST,
+      name: 'BadRequestError',
+      action: action || 'Check the request parameters and try again.',
+    });
+  }
+}

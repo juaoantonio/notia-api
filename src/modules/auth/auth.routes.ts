@@ -4,12 +4,12 @@ import type { GoogleProfile } from '@/modules/auth/auth.types';
 import { env } from '@config/env';
 import { StatusCodes } from 'http-status-codes';
 import type { Prisma } from '@prisma/client';
+import { BadRequestError } from '@/errors/client.errors';
 
 const authRoutes: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) => {
   app.get('/auth/google/callback', async (req, reply) => {
     const parsed = CallbackQuerySchema.safeParse(req.query);
-    if (!parsed.success)
-      return reply.code(StatusCodes.BAD_REQUEST).send({ error: 'invalid_query' });
+    if (!parsed.success) throw new BadRequestError();
 
     const { token } = await app.GoogleOAuth2.getAccessTokenFromAuthorizationCodeFlow(req);
     const profile = (await app.GoogleOAuth2.userinfo(token.access_token)) as GoogleProfile;
