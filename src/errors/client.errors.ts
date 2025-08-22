@@ -35,3 +35,14 @@ export class BadRequestError extends ClientError {
     });
   }
 }
+
+export class ForbiddenError extends ClientError {
+  constructor({ message, action }: { message?: string; action?: string } = {}) {
+    super({
+      message: message || 'Forbidden access.',
+      statusCode: StatusCodes.FORBIDDEN,
+      name: 'ForbiddenError',
+      action: action || 'Check your permissions and try again.',
+    });
+  }
+}
