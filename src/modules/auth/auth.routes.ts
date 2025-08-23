@@ -4,7 +4,7 @@ import type { GoogleProfile } from '@/modules/auth/auth.types';
 import { env } from '@config/env';
 import { StatusCodes } from 'http-status-codes';
 import type { Prisma } from '@prisma/client';
-import { BadRequestError, ForbiddenError, UnauthorizedError } from '@/errors/client.errors';
+import { BadRequestError, NotFoundError, UnauthorizedError } from '@/errors/client.errors';
 
 const authRoutes: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) => {
   app.get('/auth/google/callback', async (req, reply) => {
@@ -80,7 +80,7 @@ const authRoutes: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) =>
 
   app.get('/auth/dev-login', async (_request, reply) => {
     if (process.env.NODE_ENV !== 'development') {
-      throw new ForbiddenError();
+      throw new NotFoundError();
     }
 
     const user = await app.prisma.user.findUnique({
