@@ -1,12 +1,12 @@
-import { CallbackQuerySchema } from './auth.schemas';
+import { CallbackQuerySchema } from './schemas.auth';
 import type { FastifyTypedInstance, FastifyTypedPluginAsync } from '@/types';
-import type { GoogleProfile } from '@/modules/auth/auth.types';
+import type { GoogleProfile } from '@/modules/auth/types.auth';
 import { env } from '@config/env';
 import { StatusCodes } from 'http-status-codes';
 import type { Prisma } from '@prisma/client';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '@/errors/client.errors';
 
-const authRoutes: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) => {
+const routesAuth: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) => {
   app.get('/auth/google/callback', async (req, reply) => {
     const parsed = CallbackQuerySchema.safeParse(req.query);
     if (!parsed.success) throw new BadRequestError();
@@ -107,4 +107,4 @@ const authRoutes: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) =>
   });
 };
 
-export default authRoutes;
+export default routesAuth;
