@@ -2,7 +2,11 @@ import { fastify } from 'fastify';
 import autoload from '@fastify/autoload';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import type { ZodTypeProvider } from 'fastify-type-provider-zod';
+import {
+  serializerCompiler,
+  validatorCompiler,
+  type ZodTypeProvider,
+} from 'fastify-type-provider-zod';
 import { ClientError, NotFoundError } from '@/errors/client.errors';
 import { InternalServerError, ServerError } from '@/errors/server.errors';
 
@@ -18,6 +22,8 @@ export function buildApp() {
     },
   });
   app.withTypeProvider<ZodTypeProvider>();
+  app.setSerializerCompiler(serializerCompiler);
+  app.setValidatorCompiler(validatorCompiler);
   app.setErrorHandler((error: Error, _request, reply) => {
     if (error instanceof ClientError) {
       return reply.status(error.statusCode).send(error.toJSON());
