@@ -11,7 +11,7 @@ const { schema, buildOrderBy, buildPagination } = createFiltersSchema({
     isPublic: z.coerce.boolean().optional(),
     isFavorite: z.coerce.boolean().optional(),
   },
-  defaultLimit: 20,
+  defaultLimit: 10,
   maxLimit: 100,
 });
 
