@@ -79,7 +79,7 @@ const routesAuth: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) =>
   });
 
   app.get('/auth/dev-login', async (_request, reply) => {
-    if (process.env.NODE_ENV !== 'development') {
+    if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test') {
       throw new NotFoundError();
     }
 
