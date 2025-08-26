@@ -43,7 +43,8 @@ describe('routesAuth', () => {
       where: { googleSub: 'fake-sub' },
       select: { id: true, email: true, name: true, emailVerified: true, picture: true },
     });
-    expect(created).toMatchObject({
+    expect(created).toEqual({
+      id: created?.id,
       email: 'fake@test.com',
       name: 'Mock User',
       emailVerified: true,
