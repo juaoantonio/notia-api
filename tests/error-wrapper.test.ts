@@ -1,4 +1,4 @@
-import { buildApp } from '@/app';
+import { buildApp } from '@/app/build-app';
 
 describe('error wrapper', () => {
   let app: ReturnType<typeof buildApp>;
