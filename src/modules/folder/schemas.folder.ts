@@ -1,5 +1,6 @@
 import { createFiltersSchema } from '@/shared/filters';
 import { z } from 'zod';
+import { strictBoolean } from '@/shared/schemas';
 
 const { schema, buildOrderBy, buildPagination } = createFiltersSchema({
   orderFields: ['updatedAt', 'name', 'description', 'isPublic', 'isFavorite'],
@@ -7,9 +8,8 @@ const { schema, buildOrderBy, buildPagination } = createFiltersSchema({
   primaryOrderDir: 'desc',
   extraShape: {
     name: z.string().min(1).optional(),
-    description: z.string().min(1).optional(),
-    isPublic: z.coerce.boolean().optional(),
-    isFavorite: z.coerce.boolean().optional(),
+    isPublic: strictBoolean.optional(),
+    isFavorite: strictBoolean.optional(),
   },
   defaultLimit: 10,
   maxLimit: 100,
