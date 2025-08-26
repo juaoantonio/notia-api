@@ -3,7 +3,7 @@ import { buildApp } from '@/app/build-app';
 import { registerCorePlugins } from '@/app/register-core-plugins';
 
 const server = buildApp({
-  setupProviders: (app) => registerCorePlugins(app),
+  setupProviders: registerCorePlugins,
 });
 
 server.log.info(`Server is running at http://${env.HOST}:${env.PORT} in ${env.NODE_ENV} mode`);
