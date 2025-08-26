@@ -12,14 +12,11 @@ const routesFolder: FastifyTypedPluginAsync = async (app) => {
     },
     async (request) => {
       const userId = request.user.id;
-      const { name, description, isPublic, isFavorite } = request.query;
+      const { name, isPublic, isFavorite } = request.query;
 
       const where: Prisma.FolderWhereInput = {
         ownerId: userId,
         ...(name ? { name: { contains: name, mode: 'insensitive' as const } } : {}),
-        ...(description
-          ? { description: { contains: description, mode: 'insensitive' as const } }
-          : {}),
         ...(typeof isPublic === 'boolean' ? { isPublic } : {}),
         ...(typeof isFavorite === 'boolean' ? { isFavorite } : {}),
       };
@@ -62,5 +59,3 @@ const routesFolder: FastifyTypedPluginAsync = async (app) => {
     },
   );
 };
-
-export default routesFolder;
