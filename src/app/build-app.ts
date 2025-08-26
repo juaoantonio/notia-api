@@ -11,13 +11,20 @@ import { registerRoutes } from '@/app/register-routes';
 import { API_PREFIX } from '@/constants';
 import type { FastifyTypedInstance } from '@/types';
 
-export function buildApp(opts: { setupProviders: (app: FastifyTypedInstance) => void }) {
+type BuildAppOpts = {
+  setupProviders: (app: FastifyTypedInstance) => void;
+  log?: boolean;
+};
+
+export function buildApp(opts: BuildAppOpts) {
   const app = fastify({
-    logger: {
-      transport: {
-        target: '@fastify/one-line-logger',
-      },
-    },
+    logger: opts.log
+      ? {
+          transport: {
+            target: '@fastify/one-line-logger',
+          },
+        }
+      : false,
   });
 
   app.withTypeProvider<ZodTypeProvider>();
