@@ -1,6 +1,6 @@
 import { fastifyPlugin } from 'fastify-plugin';
 import { fastifyOauth2, type OAuth2Namespace } from '@fastify/oauth2';
-import { env } from '@config/env';
+import { env } from '@/config/env';
 import type { FastifyTypedInstance } from '@/types';
 
 declare module 'fastify' {

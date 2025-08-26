@@ -1,6 +1,6 @@
 import { fastifyPlugin } from 'fastify-plugin';
 import { fastifyCookie } from '@fastify/cookie';
-import { env } from '@config/env';
+import { env } from '@/config/env';
 import type { FastifyTypedInstance } from '@/types';
 
 export default fastifyPlugin(

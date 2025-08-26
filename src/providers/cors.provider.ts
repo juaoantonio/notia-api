@@ -1,6 +1,6 @@
 import { fastifyPlugin } from 'fastify-plugin';
 import { fastifyCors } from '@fastify/cors';
-import { env } from '@config/env';
+import { env } from '@/config/env';
 import type { FastifyTypedInstance } from '@/types';
 
 export default fastifyPlugin(

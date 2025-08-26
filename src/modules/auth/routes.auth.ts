@@ -1,7 +1,7 @@
 import { CallbackQuerySchema } from './schemas.auth';
 import type { FastifyTypedInstance, FastifyTypedPluginAsync } from '@/types';
 import type { GoogleProfile } from '@/modules/auth/types.auth';
-import { env } from '@config/env';
+import { env } from '@/config/env';
 import { StatusCodes } from 'http-status-codes';
 import type { Prisma } from '@prisma/client';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '@/errors/client.errors';

@@ -1,6 +1,6 @@
 import fp from 'fastify-plugin';
 import fastifyJwt from '@fastify/jwt';
-import { env } from '@config/env';
+import { env } from '@/config/env';
 import type { FastifyTypedInstance } from '@/types';
 import { UnauthorizedError } from '@/errors/client.errors';
 
