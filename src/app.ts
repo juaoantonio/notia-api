@@ -1,7 +1,4 @@
 import { fastify } from 'fastify';
-import autoload from '@fastify/autoload';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
 import {
   serializerCompiler,
   validatorCompiler,
@@ -9,9 +6,13 @@ import {
 } from 'fastify-type-provider-zod';
 import { ClientError, NotFoundError } from '@/errors/client.errors';
 import { InternalServerError, ServerError } from '@/errors/server.errors';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import cookieProvider from '@/providers/cookie.provider';
+import corsProvider from '@/providers/cors.provider';
+import jwtProvider from '@/providers/jwt.provider';
+import oauth2GoogleProvider from '@/providers/oauth2-google.provider';
+import prismaProvider from '@/providers/prisma.provider';
+import routesAuth from '@/modules/auth/routes.auth';
+import routesLink from '@/modules/link/routes.link';
 
 export function buildApp() {
   const app = fastify({
@@ -52,16 +53,21 @@ export function buildApp() {
     reply.status(notFoundError.statusCode).send(notFoundError.toJSON());
   });
 
-  app.register(autoload, {
-    dir: join(__dirname, 'providers'),
-    encapsulate: false,
-  });
+  app.register(prismaProvider);
+  app.register(corsProvider);
+  app.register(cookieProvider);
+  app.register(jwtProvider);
+  app.register(oauth2GoogleProvider);
 
-  app.register(autoload, {
-    dir: join(__dirname, 'modules'),
-    options: { prefix: '/v1' },
-    dirNameRoutePrefix: false,
-  });
+  app.register(
+    (app) => {
+      app.register(routesAuth);
+      app.register(routesLink);
+    },
+    {
+      prefix: '/v1',
+    },
+  );
 
   app.addHook('onRoute', ({ method, url }) => {
     if (['HEAD', 'OPTIONS'].includes(String(method))) return;
