@@ -63,3 +63,11 @@ profile*
 /src/generated/prisma
 
 .env
+
+# TypeScript v2 declaration files
+tests/**/*.js
+tests/**/*.js.map
+tests/**/*.d.ts
+tests/**/*.d.ts.map
+.vitest/
+
