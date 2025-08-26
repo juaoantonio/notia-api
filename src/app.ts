@@ -22,30 +22,23 @@ export function buildApp() {
       },
     },
   });
+
   app.withTypeProvider<ZodTypeProvider>();
   app.setSerializerCompiler(serializerCompiler);
   app.setValidatorCompiler(validatorCompiler);
-  app.setErrorHandler((error: Error, _request, reply) => {
-    if (error instanceof ClientError) {
-      return reply.status(error.statusCode).send(error.toJSON());
-    }
 
+  app.setErrorHandler((error: Error, _req, reply) => {
+    if (error instanceof ClientError) return reply.status(error.statusCode).send(error.toJSON());
     if (error instanceof ServerError) {
-      const publicError = new InternalServerError({
-        statusCode: error.statusCode,
-        cause: error,
-      });
-
+      const publicError = new InternalServerError({ statusCode: error.statusCode, cause: error });
       console.error(publicError);
-      reply.status(publicError.statusCode).send(publicError.toJSON());
+      return reply.status(publicError.statusCode).send(publicError.toJSON());
     }
-
-    const unknownError = new InternalServerError({
-      cause: error,
-    });
+    const unknownError = new InternalServerError({ cause: error });
     console.error(unknownError);
-    reply.status(unknownError.statusCode).send(unknownError.toJSON());
+    return reply.status(unknownError.statusCode).send(unknownError.toJSON());
   });
+
   app.setNotFoundHandler((request, reply) => {
     const notFoundError = new NotFoundError({
       message: `Route not found: ${request.method} ${request.url}.`,
