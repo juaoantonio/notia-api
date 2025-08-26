@@ -1,8 +1,10 @@
 import { buildApp } from '@/app/build-app';
 import { registerCorePlugins } from '@/app/register-core-plugins';
+import type { FastifyTypedInstance } from '@/types';
 
 describe('error wrapper', () => {
-  let app: ReturnType<typeof buildApp>;
+  let app: FastifyTypedInstance;
+
   beforeAll(async () => {
     app = buildApp({
       setupProviders: registerCorePlugins,

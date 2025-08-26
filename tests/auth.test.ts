@@ -1,12 +1,12 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { buildApp } from '@/app/build-app';
 import { registerCorePlugins } from '@/app/register-core-plugins';
-import type { FastifyInstance } from 'fastify';
 import { resetDatabase } from './utils/reset-db';
 import { oauth2Mock } from '@tests/utils/providers-mocks';
+import type { FastifyTypedInstance } from '@/types';
 
 describe('routesAuth', () => {
-  let app: FastifyInstance;
+  let app: FastifyTypedInstance;
 
   beforeAll(async () => {
     app = await buildApp({
