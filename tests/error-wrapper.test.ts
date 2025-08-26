@@ -1,9 +1,12 @@
 import { buildApp } from '@/app/build-app';
+import { registerCorePlugins } from '@/app/register-core-plugins';
 
 describe('error wrapper', () => {
   let app: ReturnType<typeof buildApp>;
   beforeAll(async () => {
-    app = buildApp();
+    app = buildApp({
+      setupProviders: registerCorePlugins,
+    });
     app.get('/v1/error-interno', async () => {
       throw new Error('Erro inesperado');
     });
