@@ -3,7 +3,7 @@ import type { Prisma } from '@prisma/client';
 import { makePage } from '@/shared/pagination';
 import { schemas } from '@/modules/folder/schemas.folder';
 
-const routesFolder: FastifyTypedPluginAsync = async (app) => {
+export const routesFolder: FastifyTypedPluginAsync = async (app) => {
   app.get(
     '/folders',
     {

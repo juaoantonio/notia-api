@@ -3,7 +3,7 @@ import type { Prisma } from '@prisma/client';
 import { makePage } from '@/shared/pagination';
 import { schemas } from '@/modules/link/schemas.link';
 
-const routesFolder: FastifyTypedPluginAsync = async (app) => {
+export const routesLink: FastifyTypedPluginAsync = async (app) => {
   app.get(
     '/links',
     {
@@ -62,5 +62,3 @@ const routesFolder: FastifyTypedPluginAsync = async (app) => {
     },
   );
 };
-
-export default routesFolder;

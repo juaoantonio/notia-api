@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { Prisma } from '@prisma/client';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '@/errors/client.errors';
 
-const routesAuth: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) => {
+export const routesAuth: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) => {
   app.get('/auth/google/callback', async (req, reply) => {
     const parsed = CallbackQuerySchema.safeParse(req.query);
     if (!parsed.success) throw new BadRequestError();
@@ -106,5 +106,3 @@ const routesAuth: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) =>
     return reply.redirect(`${env.FRONTEND_URL}/home`);
   });
 };
-
-export default routesAuth;
