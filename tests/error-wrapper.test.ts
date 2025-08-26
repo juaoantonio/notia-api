@@ -1,19 +1,12 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import type { FastifyInstance } from 'fastify';
-import { createTestServer } from '@tests/setup/test-server';
+import { buildApp } from '@/app';
 
-let baseURL: string;
-let app: FastifyInstance;
-
-describe('[e2e] error wrapper', () => {
+describe('error wrapper', () => {
+  let app: ReturnType<typeof buildApp>;
   beforeAll(async () => {
-    const server = await createTestServer((app) => {
-      app.get('/v1/boom', () => {
-        throw new Error('Erro desconhecido');
-      });
+    app = buildApp();
+    app.get('/v1/error-interno', async () => {
+      throw new Error('Erro inesperado');
     });
-    app = server.app;
-    baseURL = server.baseURL;
   });
 
   afterAll(async () => {
@@ -21,8 +14,11 @@ describe('[e2e] error wrapper', () => {
   });
 
   it('deve responder 404 com JSON do NotFoundError para rotas inexistentes', async () => {
-    const res = await fetch(`${baseURL}/v1/rota-inexistente`);
-    expect(res.status).toBe(404);
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/rota-inexistente',
+    });
+    expect(res.statusCode).toBe(404);
     const json = await res.json();
     expect(json).toEqual({
       name: 'NotFoundError',
@@ -33,8 +29,11 @@ describe('[e2e] error wrapper', () => {
   });
 
   it('deve envelopar erros desconhecidos como InternalServerError (500)', async () => {
-    const res = await fetch(`${baseURL}/v1/boom`);
-    expect(res.status).toBe(500);
+    const res = await app.inject({
+      method: 'GET',
+      url: '/v1/error-interno',
+    });
+    expect(res.statusCode).toBe(500);
     const json = await res.json();
     expect(json).toMatchObject({
       name: 'InternalServerError',
