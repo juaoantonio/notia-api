@@ -11,4 +11,3 @@ docs
 docs/**
 .github
 .github/**
-tsconfig.json
