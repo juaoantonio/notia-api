@@ -15,20 +15,3 @@ export const oauth2Mock = fastifyPlugin(async (app) => {
     }),
   });
 });
-
-export const jwtMock = fastifyPlugin(async (app) => {
-  // @ts-expect-error Mocking methods
-  app.decorate('jwt', {
-    sign: () => 'fake-token',
-    verify: async () => ({ id: 'fake-user-id', email: 'fake@test.com' }),
-  });
-
-  // O hook authenticate vai usar verify e popular request.user
-  app.decorate('authenticate', async (req, reply) => {
-    try {
-      req.user = await app.jwt.verify(req.cookies.token || '');
-    } catch {
-      reply.code(401).send({ message: 'Unauthorized' });
-    }
-  });
-});
