@@ -1,6 +1,7 @@
-import { ClientError, NotFoundError } from '@/errors/client.errors';
+import { BadRequestError, ClientError, NotFoundError } from '@/errors/client.errors';
 import { InternalServerError, ServerError } from '@/errors/server.errors';
 import type { FastifyTypedInstance } from '@/types';
+import { hasZodFastifySchemaValidationErrors } from 'fastify-type-provider-zod';
 
 export function setupErrorHandlers(app: FastifyTypedInstance) {
   app.setErrorHandler((error: Error, request, reply) => {
@@ -12,6 +13,18 @@ export function setupErrorHandlers(app: FastifyTypedInstance) {
       ip: request.ip,
       userId: request.user?.id ?? null,
     };
+
+    // Zod
+    if (hasZodFastifySchemaValidationErrors(error)) {
+      const validationError = new BadRequestError({
+        message: `Invalid request ${error.validationContext}.`,
+      });
+      request.log.warn(
+        { err: error, ...ctx, statusCode: validationError.statusCode, name: error.name },
+        error.stack || 'Zod validation error handled',
+      );
+      return reply.status(validationError.statusCode).send(validationError.toJSON());
+    }
 
     if (error instanceof ClientError) {
       request.log.warn(
