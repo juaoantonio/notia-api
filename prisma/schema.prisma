@@ -48,7 +48,7 @@ model Folder {
   id          String   @id @default(uuid()) @db.Uuid
   ownerId     String   @db.Uuid
   name        String
-  description String
+  description String?
   isPublic    Boolean  @default(false)
   isFavorite  Boolean  @default(false)
   createdAt   DateTime @default(now())
