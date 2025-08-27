@@ -15,10 +15,17 @@ const { schema, buildOrderBy, buildPagination } = createFiltersSchema({
   maxLimit: 100,
 });
 
+const createFolderSchema = z.object({
+  name: z.string().min(3).max(100),
+  description: z.string().max(255).optional(),
+  isPublic: z.boolean().optional().default(false),
+});
+
 export const schemas = {
   getPaginatedFoldersSchema: {
     schema,
     buildOrderBy,
     buildPagination,
   },
+  createFolderSchema,
 };

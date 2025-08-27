@@ -58,4 +58,28 @@ export const routesFolder: FastifyTypedPluginAsync = async (app) => {
       return makePage(data, total, request.query.page, request.query.limit);
     },
   );
+
+  app.post(
+    '/folders',
+    {
+      onRequest: [app.authenticate],
+      schema: { body: schemas.createFolderSchema },
+    },
+    async (request, reply) => {
+      const userId = request.user.id;
+      const { name, description, isPublic } = request.body;
+      const folder = await app.prisma.folder.create({
+        data: {
+          name,
+          description: description ?? null,
+          isPublic: isPublic ?? false,
+          owner: { connect: { id: userId } },
+        },
+        select: { id: true },
+      });
+      return reply.status(201).send({
+        id: folder.id,
+      });
+    },
+  );
 };
