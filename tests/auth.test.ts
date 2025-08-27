@@ -30,7 +30,11 @@ describe('routesAuth', () => {
   it('GET /v1/auth/google/callback → cria/atualiza usuário, seta cookie e redireciona', async () => {
     const res = await app.inject({
       method: 'GET',
-      url: '/v1/auth/google/callback?code=fake-code&state=xyz',
+      url: '/v1/auth/google/callback',
+      query: {
+        code: 'fake-code',
+        state: 'fake-state',
+      },
     });
 
     expect(res.statusCode).toBe(302);
@@ -122,10 +126,20 @@ describe('routesAuth', () => {
     expect(res.statusCode).toBe(400);
     const json = await res.json();
     expect(json).toEqual({
-      action: 'Check the request parameters and try again.',
-      message: 'Invalid request.',
+      action: 'Check the request and try again.',
+      message: 'Invalid request querystring.',
       name: 'BadRequestError',
       statusCode: 400,
+      validationErrors: [
+        {
+          message: 'Invalid input: expected string, received undefined',
+          path: ['code'],
+        },
+        {
+          message: 'Invalid input: expected string, received undefined',
+          path: ['state'],
+        },
+      ],
     });
   });
 });

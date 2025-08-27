@@ -111,8 +111,18 @@ describe('criação de pastas', () => {
     expect(json).toEqual({
       statusCode: 400,
       message: 'Invalid request body.',
-      action: 'Check the request parameters and try again.',
+      action: 'Check the request and try again.',
       name: 'BadRequestError',
+      validationErrors: [
+        {
+          message: 'Too small: expected string to have >=3 characters',
+          path: ['name'],
+        },
+        {
+          message: 'Invalid input: expected boolean, received string',
+          path: ['isPublic'],
+        },
+      ],
     });
   });
 });
