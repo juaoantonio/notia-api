@@ -16,8 +16,21 @@ export function setupErrorHandlers(app: FastifyTypedInstance) {
 
     // Zod
     if (hasZodFastifySchemaValidationErrors(error)) {
+      const validationErrors = error.validation.map((e) => {
+        const path = e.instancePath
+          .split('/')
+          .slice(1)
+          .map((p) => {
+            return p === '' ? (error.validationContext as string) : p;
+          });
+        return {
+          path: path,
+          message: e.message ?? 'Invalid value',
+        };
+      });
       const validationError = new BadRequestError({
         message: `Invalid request ${error.validationContext}.`,
+        validationErrors,
       });
       request.log.warn(
         { err: error, ...ctx, statusCode: validationError.statusCode, name: error.name },

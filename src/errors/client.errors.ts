@@ -25,14 +25,29 @@ export class UnauthorizedError extends ClientError {
   }
 }
 
+type ValidationErrorDetails = {
+  path: Array<string>;
+  message: string;
+};
+
 export class BadRequestError extends ClientError {
-  constructor({ message, action }: { message?: string; action?: string } = {}) {
+  public validationErrors: ValidationErrorDetails[];
+  constructor({
+    message,
+    action,
+    validationErrors,
+  }: { message?: string; action?: string; validationErrors?: ValidationErrorDetails[] } = {}) {
     super({
       message: message || 'Invalid request.',
       statusCode: StatusCodes.BAD_REQUEST,
       name: 'BadRequestError',
-      action: action || 'Check the request parameters and try again.',
+      action: action || 'Check the request and try again.',
     });
+    this.validationErrors = validationErrors ?? [];
+  }
+
+  toJSON() {
+    return { ...super.toJSON(), validationErrors: this.validationErrors };
   }
 }
 
