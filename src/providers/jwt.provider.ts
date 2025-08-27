@@ -28,7 +28,7 @@ export default fp(
       cookie: { cookieName: 'token', signed: false },
     });
 
-    app.decorate('authenticate', async function (req, reply) {
+    app.decorate('authenticate', async function (req) {
       try {
         const decoded = await req.jwtVerify<{ sub: string; email?: string; name?: string }>();
         req.user = { id: decoded.sub, email: decoded.email ?? null, name: decoded.name ?? null };
