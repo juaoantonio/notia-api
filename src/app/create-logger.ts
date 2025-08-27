@@ -50,10 +50,10 @@ export function createFastifyLoggerCfg(
       paths: [
         'req.headers.authorization',
         'req.headers.cookie',
-        'res.headers.set-cookie',
+        'res.headers["set-cookie"]',
         'request.headers.authorization',
         'request.headers.cookie',
-        'reply.headers.set-cookie',
+        'reply.headers["set-cookie"]',
       ],
       remove: true,
     },
