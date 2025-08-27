@@ -7,47 +7,50 @@ import type { Prisma } from '@prisma/client';
 import { BadRequestError, NotFoundError, UnauthorizedError } from '@/errors/client.errors';
 
 export const routesAuth: FastifyTypedPluginAsync = async (app: FastifyTypedInstance) => {
-  app.get('/auth/google/callback', async (req, reply) => {
-    const parsed = CallbackQuerySchema.safeParse(req.query);
-    if (!parsed.success) throw new BadRequestError();
+  app.get(
+    '/auth/google/callback',
+    {
+      schema: { querystring: CallbackQuerySchema },
+    },
+    async (req, reply) => {
+      const { token } = await app.GoogleOAuth2.getAccessTokenFromAuthorizationCodeFlow(req);
+      const profile = (await app.GoogleOAuth2.userinfo(token.access_token)) as GoogleProfile;
 
-    const { token } = await app.GoogleOAuth2.getAccessTokenFromAuthorizationCodeFlow(req);
-    const profile = (await app.GoogleOAuth2.userinfo(token.access_token)) as GoogleProfile;
+      const updateData: Prisma.UserUpdateInput = {
+        ...(profile.email !== undefined ? { email: profile.email ?? null } : {}),
+        ...(profile.email_verified !== undefined ? { emailVerified: profile.email_verified } : {}),
+        ...(profile.name !== undefined ? { name: profile.name } : {}),
+        ...(profile.picture !== undefined ? { picture: profile.picture } : {}),
+      };
 
-    const updateData: Prisma.UserUpdateInput = {
-      ...(profile.email !== undefined ? { email: profile.email ?? null } : {}),
-      ...(profile.email_verified !== undefined ? { emailVerified: profile.email_verified } : {}),
-      ...(profile.name !== undefined ? { name: profile.name } : {}),
-      ...(profile.picture !== undefined ? { picture: profile.picture } : {}),
-    };
+      const user = await app.prisma.user.upsert({
+        where: { googleSub: profile.sub },
+        update: updateData,
+        create: {
+          googleSub: profile.sub,
+          email: profile.email ?? null,
+          emailVerified: profile.email_verified ?? false,
+          name: profile.name ?? null,
+          picture: profile.picture ?? null,
+        },
+        select: { id: true, email: true, name: true },
+      });
 
-    const user = await app.prisma.user.upsert({
-      where: { googleSub: profile.sub },
-      update: updateData,
-      create: {
-        googleSub: profile.sub,
-        email: profile.email ?? null,
-        emailVerified: profile.email_verified ?? false,
-        name: profile.name ?? null,
-        picture: profile.picture ?? null,
-      },
-      select: { id: true, email: true, name: true },
-    });
+      const jwt = await reply.jwtSign(
+        { email: user.email ?? undefined, name: user.name ?? undefined },
+        { sub: user.id },
+      );
 
-    const jwt = await reply.jwtSign(
-      { email: user.email ?? undefined, name: user.name ?? undefined },
-      { sub: user.id },
-    );
-
-    reply.setCookie('token', jwt, {
-      httpOnly: true,
-      sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
-      secure: env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-    });
-    return reply.redirect(`${env.FRONTEND_URL}/home`);
-  });
+      reply.setCookie('token', jwt, {
+        httpOnly: true,
+        sameSite: env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+      });
+      return reply.redirect(`${env.FRONTEND_URL}/home`);
+    },
+  );
 
   app.get(
     '/me',
